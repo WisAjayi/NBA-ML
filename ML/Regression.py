@@ -5,13 +5,14 @@ from sklearn.linear_model import LinearRegression
 from config import PLAYER, TEAM_NAME, TEAM_ABBREV as TEAM ### Use to search for Team Match upn to gather data ###
 
 
-data = pandas.read_csv(f'/Users/wisdomajayi/Documents/Working Directory/NBA/TEAMS/{TEAM_NAME}/GAMELOG/{PLAYER}.csv')
+data = pandas.read_csv(f'../TEAMS/{TEAM_NAME}/GAMELOG/{PLAYER}.csv')
 #print(data.describe())
 
 X = DataFrame(data, columns=['PTS'])
 y = DataFrame(data, columns=['FGM'])
 matchups = DataFrame(data, columns=['MATCHUP'])
 
+REGRESSION = None
 
 def visualize():
     

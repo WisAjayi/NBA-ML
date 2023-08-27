@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+
+
+     <div class="demo-page">
+
+
+            <main class="demo-page-content">
+              <section>
+                <div class="href-target" id="intro"></div>
+                <h1 class="package-name">Team Names</h1>
+
+                <ul>
+                  <li>Atlanta Hawks <img src="{{ url_for('static', filename='img/atlanta.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Boston Celtics <img src="{{ url_for('static', filename='img/boston.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Brooklyn Nets <img src="{{ url_for('static', filename='img/brooklyn.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Charlotte Hornets <img src="{{ url_for('static', filename='img/charlotte.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Chicago Bulls <img src="{{ url_for('static', filename='img/chicago.png') }}" alt="chicago bulls image" width="20" height="20" viewBox="0 0 20 20" class="imaging"> </li>
+                  <li>Cleveland Cavaliers <img src="{{ url_for('static', filename='img/cleveland.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Dallas Mavericks <img src="{{ url_for('static', filename='img/dallas.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Denver Nuggets <img src="{{ url_for('static', filename='img/denver.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Detroit Pistons <img src="{{ url_for('static', filename='img/detroit.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Golden State Warriors <img src="{{ url_for('static', filename='img/golden.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Houston Rockets <img src="{{ url_for('static', filename='img/houston.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Indiana Pacers <img src="{{ url_for('static', filename='img/indiana.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Los Angeles Lakers <img src="{{ url_for('static', filename='img/lal.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Los Angeles Clippers <img src="{{ url_for('static', filename='img/lac.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Memphis Grizzlies <img src="{{ url_for('static', filename='img/memphis.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Miami Heats <img src="{{ url_for('static', filename='img/miami.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Milwaukee Bucks <img src="{{ url_for('static', filename='img/milwaukee.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Minnesota Timberwolves <img src="{{ url_for('static', filename='img/minnesota.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>New Orleans Pelicans <img src="{{ url_for('static', filename='img/new-orleans.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>New York Knicks <img src="{{ url_for('static', filename='img/new-york.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Oklahoma City Thunders <img src="{{ url_for('static', filename='img/oklahoma.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Orlando Magics <img src="{{ url_for('static', filename='img/orlando.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Philadelphia 76ers <img src="{{ url_for('static', filename='img/philadelphia.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Phoenix Suns <img src="{{ url_for('static', filename='img/phoenix.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Portland Trailblazers <img src="{{ url_for('static', filename='img/portland.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Sacramento Kings <img src="{{ url_for('static', filename='img/sacramento.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>San Antonio Spurs <img src="{{ url_for('static', filename='img/san-antonio.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Toronto Raptors <img src="{{ url_for('static', filename='img/toronto.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Utah Jazz <img src="{{ url_for('static', filename='img/utah-jazz.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+                  <li>Washington Wizards <img src="{{ url_for('static', filename='img/washington.png') }}" width="20" height="20" viewBox="0 0 20 20" class="imaging"></li>
+
+                </ul>
+              </section>
+
+              <section>
+                <div class="href-target" id="installation"></div>
+                <h1>STATS</h1>
+                <ul>
+                    <li>Points   =   PTS</li>
+                    <li>ASSIST   =   AST</li>
+                    <li>STEAL   =   STL</li>
+                    <li>BLOCK   =   BLK</li>
+                    <li>REBOUND   =   REB</li>
+                    <li>Minutes Played   =    MIN</li>
+                    <li>Turnover   =   TOV</li>
+
+                  </ul>
+              </section>
+
+              <section>
+                <div class="href-target" id="input-types"></div>
+                <h1>
+                  Player Input
+                </h1>
+                <p>Please Fill the Player Details</p>
+
+                <form method="POST" id="first-form">
+
+                <div class="nice-form-group">
+                  <label for="first_name">First Name</label>
+                  <input type="text" placeholder="First Name" value="" name="first_name" id="first_name" />
+                </div>
+
+                <div class="nice-form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" placeholder="Last Name" value="" name="last_name" id="last_name" />
+                </div>
+
+                <div class="nice-form-group">
+                    <label for="team">Team Name</label>
+                    <input type="text" placeholder="Team Name" value="" name="team" id="team" />
+                </div>
+
+                <button type="submit" class="custom-button">Submit</button>
+                </form>
+
+              </section>
+
+            </main>
+          </div>
+
+
+
+    <div class='content'>
+                    <h2>{{name}}</h2>
+
+    </div>
+
+
+    <section class="wrapper">
+  <ul class="column__list">
+    <li class="column__item">
+      <div class="column__title--wrapper">
+        <h2 class="heading">Average Stat</h2>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+      <ul class="card__list">
+
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Points</span>
+          <h6 class="card__title">{{ points_average }}</h6>
+        </li>
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Steal</span>
+          <h6 class="card__title">{{ points_steal }}</h6>
+        </li>
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Block</span>
+          <h6 class="card__title">{{ points_block }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Rebound</span>
+          <h6 class="card__title">{{ points_rebound }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Assist</span>
+          <h6 class="card__title">{{ points_assist }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Minutes</span>
+          <h6 class="card__title">{{ points_minutes }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Turnover</span>
+          <h6 class="card__title">{{ points_turnover }}</h6>
+        </li>
+      </ul>
+    </li>
+
+
+
+<li class="column__item">
+      <div class="column__title--wrapper">
+        <h2 class="heading">Technical Stat</h2>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+      <ul class="card__list">
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">FGM</span>
+          <h6 class="card__title">{{ fgm }}</h6>
+        </li>
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">FGA</span>
+          <h6 class="card__title">{{ fga }}</h6>
+        </li>
+
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">FG3M</span>
+          <h6 class="card__title">{{ fg3m }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">FTM</span>
+          <h6 class="card__title">{{ ftm }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">FTA</span>
+          <h6 class="card__title">{{ fta }}</h6>
+        </li>
+      </ul>
+
+    </li>
+
+
+
+<li class="column__item">
+      <div class="column__title--wrapper">
+        <h2 class="heading">Most</h2>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+      <ul class="card__list">
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Points</span>
+          <h6 class="card__title">{{ points_most }}</h6>
+        </li>
+
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Steal</span>
+          <h6 class="card__title">{{ steal_most }}</h6>
+        </li>
+
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Block</span>
+          <h6 class="card__title">{{ block_most }}</h6>
+        </li>
+
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Rebound</span>
+          <h6 class="card__title">{{ rebound_most }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Assist</span>
+          <h6 class="card__title">{{ assist_most }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Minutes</span>
+          <h6 class="card__title">{{ minutes_most }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Turnover</span>
+          <h6 class="card__title">{{ turnover_most }}</h6>
+        </li>
+
+      </ul>
+    </li>
+
+
+
+<li class="column__item">
+      <div class="column__title--wrapper">
+        <h2 class="heading">Least</h2>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+      <ul class="card__list">
+
+         <li class="card__item">
+          <span class="card__tag card__tag--browser">Points</span>
+          <h6 class="card__title">{{ points_least }}</h6>
+        </li>
+
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Steal</span>
+          <h6 class="card__title">{{ steal_least }}</h6>
+        </li>
+
+
+        <li class="card__item">
+          <span class="card__tag card__tag--browser">Block</span>
+          <h6 class="card__title">{{ block_least }}</h6>
+
+        </li>
+
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Rebound</span>
+          <h6 class="card__title">{{ rebound_least }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Assist</span>
+          <h6 class="card__title">{{ assist_least }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Minutes</span>
+          <h6 class="card__title">{{ minutes_least }}</h6>
+        </li>
+          <li class="card__item">
+          <span class="card__tag card__tag--browser">Turnover</span>
+          <h6 class="card__title">{{ turnover_least }}</h6>
+        </li>
+
+
+      </ul>
+    </li>
+
+    </li>
+  </ul>
+</section>
+
+        <div class='content'>
+                    <h2>Correlation</h2>
+                    <p>Click Button Below To Calculate Correlation Values</p>
+
+                    <form method="POST" id="footer-form" >
+                    <button type="submit" class="custom-button">Correlate</button>
+                    </form>
+
+            <p>{{error}}</p>
+
+
+
+    </div>
+
+    </body>
+</html>

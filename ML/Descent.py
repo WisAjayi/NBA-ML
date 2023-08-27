@@ -7,12 +7,28 @@ from math import log
 from sympy import symbols, diff
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
+import pandas as pd
 
+DESCENT = None
 
 ### RUN Cost or Derivative function and then gradient descent function on Data ###
 
+
+TEAM_NAME = 'Atlanta Hawks'
+TEAM_ABBREV = 'ATL'
+
+PLAYER_FIRST_NAME = "Trae"
+PLAYER_LAST_NAME = "Young"
+
+def init():
+
+    Player = PLAYER_FIRST_NAME + " " + PLAYER_LAST_NAME
+    return Player
+
+PLAYER = init()
+
 # Data #
-data = pd.read_csv(f'/Users/wisdomajayi/Documents/Working Directory/NBA/TEAMS/{TEAM_NAME}/GAMELOG/{PLAYER}.csv')
+data = pd.read_csv(f'../TEAMS/{TEAM_NAME}/GAMELOG/{PLAYER}.csv')
 
 
 ### Cost Function ###
@@ -155,12 +171,7 @@ print('Value of f(x,y) at x=1.8 y=1.0 is: ', f(a, b).evalf(subs={a:1.8, b:1.0}))
 print('Value of partial derivative wrt x: ', diff(f(a, b), a).evalf(subs={a:1.8, b:1.0}))
 
 
-
-
-
-
 ### BATCH DESCENT WITH SYMPY ###
-
 
 # Setup
 multiplier = 0.1
