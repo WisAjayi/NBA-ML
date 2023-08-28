@@ -141,4 +141,4 @@ def correlate():
     return render_template('correlate.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
