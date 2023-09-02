@@ -25,6 +25,8 @@ Run ```“app.py”``` in the Frontend folder/ directory to run the ui locally.
 
 PHOTO
 
+![Player Input Frontend](player_input.pmg)
+
 Frontend ```/``` route is shown in the image above.
 
 ```"/"``` route to access player statistics.
