@@ -19,7 +19,7 @@ Run file with ```python filename``` or ```your version of python```
 
 Just Search by the player's real *"first name"* , *“last name”* and *“current team “* as written in the ui documents. **No Abbreviations**
 
-Go to [https://nba-ml-frontend-1a7155451cf7.herokuapp.com] to see the ui in action. 
+Go to [nba-ml-frontend] (https://nba-ml-frontend-1a7155451cf7.herokuapp.com) to see the ui in action. 
 
 Run ```“app.py”``` in the Frontend folder/ directory to run the ui locally. 
 
