@@ -25,7 +25,7 @@ Run ```“app.py”``` in the Frontend folder/ directory to run the ui locally.
 
 PHOTO
 
-![Player Input Frontend](player_input.pmg)
+![Player Input Frontend](player_input.png)
 
 Frontend ```/``` route is shown in the image above.
 
