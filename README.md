@@ -34,7 +34,7 @@ Frontend ```/``` route is shown in the image above.
 
 ```/correlation``` route to access player correlation metrics.
 
-UI is served using ```flask``` & ```jinja``` for templating and Amazon S3 for file storage. 
+UI is served using ```flask``` & ```jinja``` for templating and ```Amazon S3`` for file storage. 
 
 3. V3 UPCOMING. 
 
