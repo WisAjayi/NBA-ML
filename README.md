@@ -24,7 +24,7 @@ Go to ( https://nba-ml-frontend-1a7155451cf7.herokuapp.com/ ). to see the ui in 
 Run ```“app.py”``` in the Frontend folder/ directory to run the ui locally. 
 
 
-![Player Input Frontend](player_input.png)
+![Player Input Frontend](player_input_example.png)
 Frontend ```/``` route is shown in the image above.
 
 
