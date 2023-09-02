@@ -25,11 +25,11 @@ Run ```“app.py”``` in the Frontend folder/ directory to run the ui locally.
 
 
 ![Player Input Frontend](player_input.png)
-
 Frontend ```/``` route is shown in the image above.
 
-![Player Stastistics](statistics.png)
 
+
+![Player Stastistics](statistics.png)
 ```"/"``` route to access player statistics.
 
 ```/correlation``` route to access player correlation metrics.
