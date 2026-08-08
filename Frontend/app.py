@@ -1,7 +1,6 @@
 import base64
 import io
-from functools import lru_cache
-from pathlib import Path
+import os
 
 import matplotlib
 
@@ -13,6 +12,7 @@ import seaborn as sns
 from flask import Flask, render_template, request
 from sklearn.linear_model import LinearRegression
 
+import mongo_store
 from ML import Multivariable
 
 sns.set_theme(style="whitegrid")
@@ -38,9 +38,6 @@ PREDICTION_EXCLUDED_COMPONENTS = {
 
 LOW_SAMPLE_THRESHOLD = 10
 
-APP_DIR = Path(__file__).resolve().parent
-TEAMS_DIR = APP_DIR.parent / "TEAMS"
-
 STAT_OPTIONS = [
     ("PTS", "Points"),
     ("AST", "Assists"),
@@ -50,6 +47,8 @@ STAT_OPTIONS = [
     ("TOV", "Turnovers"),
     ("MIN", "Minutes"),
 ]
+
+VALID_STATS = {abbrev for abbrev, _ in STAT_OPTIONS}
 
 CORE_STATS = [abbrev for abbrev, _ in STAT_OPTIONS]
 
@@ -122,40 +121,15 @@ TEAM_LOGOS = {
 }
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = 64 * 1024  # these forms never legitimately need more than a few KB
 
 
-@lru_cache(maxsize=1)
-def get_teams():
-    return sorted(p.name for p in TEAMS_DIR.iterdir() if p.is_dir())
-
-
-@lru_cache(maxsize=1)
-def get_rosters():
-    """Build {team_name: [{"first", "last"}, ...]} straight from the game-log
-    filenames, so every player offered in the UI is guaranteed to have data."""
-    rosters = {}
-    for team_dir in TEAMS_DIR.iterdir():
-        gamelog_dir = team_dir / "GAMELOG"
-        if not gamelog_dir.is_dir():
-            continue
-        players = []
-        for csv_file in sorted(gamelog_dir.glob("*.csv")):
-            first, sep, last = csv_file.stem.partition("_")
-            if sep:
-                players.append({"first": first, "last": last})
-        rosters[team_dir.name] = players
-    return rosters
-
-
-@lru_cache(maxsize=1)
-def get_all_players():
-    """Flat, team-tagged player list for the cross-page 'quick search' box."""
-    players = [
-        {"team": team, "first": p["first"], "last": p["last"]}
-        for team, roster in get_rosters().items()
-        for p in roster
-    ]
-    return sorted(players, key=lambda p: (p["first"], p["last"]))
+@app.after_request
+def set_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
 
 
 def load_player_data(team, first, last):
@@ -348,9 +322,9 @@ def build_splits(data):
 
 def base_context(**overrides):
     context = {
-        "teams": get_teams(),
-        "rosters": get_rosters(),
-        "all_players": get_all_players(),
+        "teams": mongo_store.get_teams(),
+        "rosters": mongo_store.get_rosters(),
+        "all_players": mongo_store.get_all_players(),
         "team_logos": TEAM_LOGOS,
         "stats": STAT_OPTIONS,
         "selected_team": "",
@@ -447,6 +421,8 @@ def correlate():
 
         if not (team and first and last and stat_1 and stat_2):
             context["error"] = "Please fill in every field."
+        elif stat_1 not in VALID_STATS or stat_2 not in VALID_STATS:
+            context["error"] = "Please choose stats from the provided list."
         else:
             try:
                 load_player_data(team, first, last)
@@ -484,6 +460,8 @@ def predict():
 
         if not (team and first and last and stat):
             context["error"] = "Please choose a team, a player, and a stat."
+        elif stat not in VALID_STATS:
+            context["error"] = "Please choose a stat from the provided list."
         else:
             try:
                 data = load_player_data(team, first, last)
@@ -667,19 +645,17 @@ def team_dashboard():
 
         if not (team and stat):
             context["error"] = "Please choose a team and a stat."
+        elif stat not in VALID_STATS:
+            context["error"] = "Please choose a stat from the provided list."
         else:
             try:
-                roster = get_rosters().get(team, [])
+                team_data = mongo_store.load_team_data(team)  # one query for the whole roster
                 rows = []
-                for p in roster:
-                    try:
-                        data = load_player_data(team, p["first"], p["last"])
-                    except FileNotFoundError:
-                        continue
+                for (first, last), data in team_data.items():
                     if data.empty:
                         continue
                     rows.append({
-                        "name": f"{p['first']} {p['last'].replace('_', ' ')}",
+                        "name": f"{first} {last.replace('_', ' ')}",
                         "games": len(data),
                         "avg": float(data[stat].mean()),
                         "low_sample": len(data) < LOW_SAMPLE_THRESHOLD,
@@ -709,4 +685,5 @@ def team_dashboard():
 
 
 if __name__ == "__main__":
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

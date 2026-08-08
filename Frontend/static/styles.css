@@ -723,7 +723,29 @@ details summary::-webkit-details-marker {
 
 .site-nav {
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 28px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px;
 }
 
 .site-nav a {
@@ -1158,9 +1180,30 @@ details summary::-webkit-details-marker {
   padding: 1.5rem 0 2.5rem;
 }
 
-@media (max-width: 600px) {
-  .site-header {
+@media (max-width: 780px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-nav {
+    display: none;
+    width: 100%;
+    order: 3;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+
+  .site-nav.open {
+    display: flex;
+  }
+
+  .site-nav a {
+    padding: 0.75rem 0.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .site-nav a.active {
+    border-bottom-color: var(--orange);
   }
 }
