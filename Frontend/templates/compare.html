@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "_macros.html" import roster_picker %}
+
+{% block title %}Compare &middot; NBA Stat Explorer{% endblock %}
+
+{% block content %}
+<section class="panel hero">
+    <h1>Player vs. player</h1>
+    <p>Pick two players to compare their season averages side by side.</p>
+
+    <form method="POST" class="stat-form">
+        <div class="compare-form-grid">
+            <div class="form-grid">
+                {{ roster_picker('a', teams, selected_team_a, 'team_a', 'first_name_a', 'last_name_a') }}
+            </div>
+            <div class="vs-divider">VS</div>
+            <div class="form-grid">
+                {{ roster_picker('b', teams, selected_team_b, 'team_b', 'first_name_b', 'last_name_b') }}
+            </div>
+        </div>
+        <button type="submit" class="btn-primary">Compare players</button>
+    </form>
+
+    {% if error %}
+    <p class="alert">{{ error }}</p>
+    {% endif %}
+</section>
+
+{% if compare_result %}
+<section class="panel">
+    <h2 class="player-name">{{ compare_result.name_a }} vs. {{ compare_result.name_b }}</h2>
+
+    <div class="compare-table">
+        <div class="compare-row compare-header">
+            <span>{{ compare_result.name_a }}</span>
+            <span>Stat</span>
+            <span>{{ compare_result.name_b }}</span>
+        </div>
+        {% for row in compare_result.rows %}
+        <div class="compare-row">
+            <span class="{{ 'compare-lead' if row.a > row.b else '' }}">{{ '%.1f' % row.a }}</span>
+            <span class="compare-label">{{ row.label }}</span>
+            <span class="{{ 'compare-lead' if row.b > row.a else '' }}">{{ '%.1f' % row.b }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="chart-grid">
+        <figure class="chart chart-wide">
+            <img src="data:image/png;base64,{{ compare_result.chart }}" alt="{{ compare_result.name_a }} vs {{ compare_result.name_b }} averages">
+            <figcaption>Season average comparison across core stats.</figcaption>
+        </figure>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

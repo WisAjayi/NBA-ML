@@ -9,8 +9,8 @@ import statsmodels.api as sm
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
-TEAM_NAME = 'Atlanta Hawks'
-TEAM_ABBREV = 'ATL'
+TEAM_NAME = 'Washington Wizards'
+TEAM_ABBREV = 'WAS'
 
 PLAYER_FIRST_NAME = "Trae"
 PLAYER_LAST_NAME = "Young"

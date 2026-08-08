@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}NBA Stat Explorer{% endblock %}</title>
+    <meta name="description" content="Explore NBA player season stats and stat correlations.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%80%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}">&#127936; NBA Stat Explorer</a>
+        <nav class="site-nav">
+            <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}">Player Stats</a>
+            <a href="{{ url_for('correlate') }}" class="{{ 'active' if request.endpoint == 'correlate' else '' }}">Correlation</a>
+            <a href="{{ url_for('predict') }}" class="{{ 'active' if request.endpoint == 'predict' else '' }}">Predictions</a>
+            <a href="{{ url_for('matchup') }}" class="{{ 'active' if request.endpoint == 'matchup' else '' }}">Matchup</a>
+            <a href="{{ url_for('compare') }}" class="{{ 'active' if request.endpoint == 'compare' else '' }}">Compare</a>
+            <a href="{{ url_for('splits') }}" class="{{ 'active' if request.endpoint == 'splits' else '' }}">Splits</a>
+            <a href="{{ url_for('team_dashboard') }}" class="{{ 'active' if request.endpoint == 'team_dashboard' else '' }}">Teams</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>Stats via nba_api &middot; locally cached game logs</p>
+    </footer>
+
+    <script>
+        window.ROSTERS = {{ rosters | tojson }};
+        window.ALL_PLAYERS = {{ all_players | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

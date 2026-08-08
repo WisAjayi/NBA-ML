@@ -1,0 +1,28 @@
+{% macro roster_picker(prefix, teams, selected_team, team_field, first_field, last_field, quick_search=True) %}
+<div class="roster-picker" data-roster-picker>
+    {% if quick_search %}
+    <div class="nice-form-group quick-search">
+        <label for="{{ prefix }}_search">Quick search (any team)</label>
+        <input type="text" list="{{ prefix }}_players" id="{{ prefix }}_search" placeholder="Type a player name&hellip;" data-quick-search autocomplete="off">
+        <datalist id="{{ prefix }}_players" data-players-datalist></datalist>
+    </div>
+    {% endif %}
+    <div class="nice-form-group">
+        <label for="{{ prefix }}_team">Team</label>
+        <select name="{{ team_field }}" id="{{ prefix }}_team" data-team-select required>
+            <option value="" disabled {{ 'selected' if not selected_team else '' }}>Select a team</option>
+            {% for t in teams %}
+            <option value="{{ t }}" {{ 'selected' if t == selected_team else '' }}>{{ t }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="nice-form-group">
+        <label for="{{ prefix }}_player">Player</label>
+        <select id="{{ prefix }}_player" data-player-select {{ 'disabled' if not selected_team else '' }} required>
+            <option value="">{{ 'Select a team first' if not selected_team else 'Select a player' }}</option>
+        </select>
+    </div>
+    <input type="hidden" name="{{ first_field }}" data-first-input>
+    <input type="hidden" name="{{ last_field }}" data-last-input>
+</div>
+{% endmacro %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% from "_macros.html" import roster_picker %}
+
+{% block title %}Predictions &middot; NBA Stat Explorer{% endblock %}
+
+{% block content %}
+<section class="panel hero">
+    <h1>Project a stat line</h1>
+    <p>Pick a team, a player, and a stat. We'll blend their season average, last-10-game form, and a
+       multivariable regression fit on their box score to produce a projected line, then show how often
+       they've actually gone over or under it this career.</p>
+
+    <form method="POST" class="stat-form">
+        <div class="form-grid">
+            {{ roster_picker('main', teams, selected_team, 'team', 'first_name', 'last_name') }}
+            <div class="nice-form-group">
+                <label for="stat">Stat</label>
+                <select name="stat" id="stat" required>
+                    {% for abbrev, label in stats %}
+                    <option value="{{ abbrev }}" {{ 'selected' if abbrev == target_stat else '' }}>{{ label }} ({{ abbrev }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="first_name" data-first-input>
+        <input type="hidden" name="last_name" data-last-input>
+        <button type="submit" class="btn-primary">Generate projection</button>
+    </form>
+
+    {% if error %}
+    <p class="alert">{{ error }}</p>
+    {% endif %}
+</section>
+
+{% if prediction %}
+<section class="panel">
+    <h2 class="player-name">{{ player_name }}</h2>
+
+    {% if prediction.small_sample %}
+    <p class="alert alert-warning">
+        Only {{ prediction.total_games }} career game(s) on record for this stat &mdash;
+        treat this projection as low-confidence.
+    </p>
+    {% endif %}
+
+    <div class="line-display">
+        <span class="line-value">{{ '%g' % prediction.line }}</span>
+        <span class="line-label">{{ dict(stats).get(target_stat, target_stat) }} &mdash; projected line</span>
+    </div>
+
+    <div class="stat-groups">
+        <div class="stat-group">
+            <h3>What the line is built from</h3>
+            <ul class="stat-cards">
+                <li class="stat-card"><span class="tag tag-avg">Season average</span><strong>{{ '%.1f' % prediction.season_avg }}</strong></li>
+                <li class="stat-card"><span class="tag tag-shoot">Last 10 games</span><strong>{{ '%.1f' % prediction.recent_avg }}</strong></li>
+                <li class="stat-card"><span class="tag tag-high">Regression model</span><strong>{{ '%.1f' % prediction.model_projection }}</strong></li>
+            </ul>
+            <p class="model-note">Regression model fit: R&sup2; = {{ '%.3f' % prediction.r_squared }} (in-sample, predicting {{ target_stat }} from the rest of the box score)</p>
+        </div>
+
+        <div class="stat-group">
+            <h3>Career history against this line</h3>
+            <div class="ou-bar">
+                <div class="ou-segment ou-over" style="width: {{ prediction.over_pct }}%">
+                    {% if prediction.over_pct >= 12 %}Over {{ '%.0f' % prediction.over_pct }}%{% endif %}
+                </div>
+                <div class="ou-segment ou-under" style="width: {{ prediction.under_pct }}%">
+                    {% if prediction.under_pct >= 12 %}Under {{ '%.0f' % prediction.under_pct }}%{% endif %}
+                </div>
+            </div>
+            <p class="ou-legend">
+                <span class="tag tag-high">Over</span> {{ prediction.over_count }} games &middot;
+                <span class="tag tag-low">Under</span> {{ prediction.under_count }} games
+                {% if prediction.push_count %} &middot; Push {{ prediction.push_count }} games{% endif %}
+                &middot; {{ prediction.total_games }} career games total
+            </p>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <figure class="chart chart-wide">
+            <img src="data:image/png;base64,{{ prediction.chart }}" alt="Distribution of {{ target_stat }} with projected line">
+            <figcaption>Every logged game's {{ target_stat }}, with the projected line marked.</figcaption>
+        </figure>
+        <figure class="chart chart-wide">
+            <img src="data:image/png;base64,{{ prediction.trend_chart }}" alt="{{ target_stat }} per game with 5- and 10-game rolling averages">
+            <figcaption>{{ target_stat }} per game (scatter) with 5-game and 10-game rolling averages, against the projected line.</figcaption>
+        </figure>
+    </div>
+
+    <p class="disclaimer">Built from historical box-score data for statistical exploration only &mdash; not betting advice.</p>
+</section>
+{% endif %}
+{% endblock %}

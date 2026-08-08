@@ -1,109 +1,52 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    </head>
-    <body>
+{% extends "base.html" %}
+{% from "_macros.html" import roster_picker %}
 
+{% block title %}Stat Correlation &middot; NBA Stat Explorer{% endblock %}
 
+{% block content %}
+<section class="panel hero">
+    <h1>Correlate two stats</h1>
+    <p>Pick a team and player, then choose two stats to see how closely they move together across the season (Pearson correlation, from -1 to 1).</p>
 
-         <div class="demo-page">
-
-                         <div class="demo-page-navigation">
-              <nav>
-                <ul>
-                  <li>
-                      Points / PTS
-                  </li>
-                  <li>
-                      Assist / AST
-                  </li>
-                  <li>
-                      Steal / STL
-                  </li>
-                  <li>
-                      Block / BLK
-                  </li>
-                  <li>
-                      Rebound / REB
-                  </li>
-
-                  <li>
-                      Minutes Played / MIN
-                  </li>
-                  <li>
-                      Turnover / TOV
-                  </li>
-                </ul>
-
-                    <p class="prime">Please Use Stats Abbreviation When Filling The Correlation Form Values. </p>
-                    <p class="prime">Example: PTS,AST,TOV</p>
-              </nav>
-
+    <form method="POST" class="stat-form">
+        <div class="form-grid">
+            {{ roster_picker('main', teams, selected_team, 'team', 'first_name', 'last_name') }}
+            <div class="nice-form-group">
+                <label for="stat_1">Stat 1</label>
+                <select name="stat_1" id="stat_1" required>
+                    <option value="" disabled {{ 'selected' if not stat1 else '' }}>Choose a stat</option>
+                    {% for abbrev, label in stats %}
+                    <option value="{{ abbrev }}" {{ 'selected' if abbrev == stat1 else '' }}>{{ label }} ({{ abbrev }})</option>
+                    {% endfor %}
+                </select>
             </div>
+            <div class="nice-form-group">
+                <label for="stat_2">Stat 2</label>
+                <select name="stat_2" id="stat_2" required>
+                    <option value="" disabled {{ 'selected' if not stat2 else '' }}>Choose a stat</option>
+                    {% for abbrev, label in stats %}
+                    <option value="{{ abbrev }}" {{ 'selected' if abbrev == stat2 else '' }}>{{ label }} ({{ abbrev }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="first_name" data-first-input>
+        <input type="hidden" name="last_name" data-last-input>
+        <button type="submit" class="btn-primary">Correlate</button>
+    </form>
 
+    {% if error %}
+    <p class="alert">{{ error }}</p>
+    {% endif %}
+</section>
 
-            <main class="demo-page-content">
-
-            <section>
-                <div class="href-target" id="input-types"></div>
-                <h1>
-                  Player Input
-                </h1>
-                <p>Please Fill the Player Details</p>
-
-                <form method="POST" id="first-form" action="/correlation">
-
-                <div class="nice-form-group">
-                  <label for="first_">First Name</label>
-                  <input type="text" placeholder="First Name" value="" name="first_" id="first_" />
-                </div>
-
-                <div class="nice-form-group">
-                    <label for="last_">Last Name</label>
-                    <input type="text" placeholder="Last Name" value="" name="last_" id="last_" />
-                </div>
-
-                <div class="nice-form-group">
-                    <label for="teamm">Team</label>
-                    <input type="text" placeholder="team" value="" name="teamm" id="teamm" />
-                </div>
-
-                <div class="nice-form-group">
-                    <label for="Stat_1">Correlation Stat 1</label>
-                    <input type="text" placeholder="STAT 1" value="" name="Stat_1" id="Stat_1" />
-                </div>
-
-
-                <div class="nice-form-group">
-                    <label for="Stat_2">Correlation Stat 2</label>
-                    <input type="text" placeholder="Team Name" value="" name="Stat_2" id="Stat_2" />
-                </div>
-
-                <button type="submit" class="custom-button">Submit</button>
-
-                </form>
-
-                <p>Please use the statistical abbreviations to search and return a correlation value.</p>
-                <p>[PTS,AST,STL,BLK,REB,TOV,MIN]</p>
-
-                <p>{{compare}}</p>
-                <h2>{{stat1}}</h2>
-                <h2>{{stat2}}</h2>
-
-
-                <p>{{correlate}}</p>
-                <h2>{{corr}}</h2>
-                <p>{{error}}</p>
-
-
-              </section>
-
-          </main>
-          </div>
-    </body>
-</html>
+{% if corr is not none %}
+<section class="panel">
+    <h2 class="player-name">{{ player_name }}</h2>
+    <p class="correlation-summary">
+        Correlation between <strong>{{ stat1 }}</strong> and <strong>{{ stat2 }}</strong>
+    </p>
+    <p class="correlation-value">{{ '%.3f' % corr }}</p>
+</section>
+{% endif %}
+{% endblock %}

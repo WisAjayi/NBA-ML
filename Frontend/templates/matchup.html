@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% from "_macros.html" import roster_picker %}
+
+{% block title %}Matchup &middot; NBA Stat Explorer{% endblock %}
+
+{% block content %}
+<section class="panel hero">
+    <h1>Head-to-head vs. an opponent</h1>
+    <p>Pick a player and an opponent team to see how their career numbers against that team compare to their
+       overall season averages.</p>
+
+    <form method="POST" class="stat-form">
+        <div class="form-grid">
+            {{ roster_picker('main', teams, selected_team, 'team', 'first_name', 'last_name') }}
+            <div class="nice-form-group">
+                <label for="opponent_team">Opponent</label>
+                <select name="opponent_team" id="opponent_team" required>
+                    <option value="" disabled {{ 'selected' if not opponent_team else '' }}>Select an opponent</option>
+                    {% for t in teams %}
+                    <option value="{{ t }}" {{ 'selected' if t == opponent_team else '' }}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn-primary">Compare vs. opponent</button>
+    </form>
+
+    {% if error %}
+    <p class="alert">{{ error }}</p>
+    {% endif %}
+</section>
+
+{% if matchup_result %}
+<section class="panel">
+    <h2 class="player-name">{{ player_name }} vs. {{ opponent_team }}</h2>
+    <p class="model-note">
+        {{ matchup_result.games }} career game(s) &middot;
+        record {{ matchup_result.wins }}-{{ matchup_result.losses }}
+        {% if matchup_result.games < 10 %}&middot; small sample, take with a grain of salt{% endif %}
+    </p>
+
+    <div class="stat-groups">
+        <div class="stat-group stat-group-wide">
+            <h3>Averages vs. {{ opponent_team }} compared to season</h3>
+            <ul class="stat-cards">
+                {% for row in matchup_result.rows %}
+                <li class="stat-card">
+                    <span class="tag tag-avg">{{ row.label }}</span>
+                    <span>
+                        <strong>{{ '%.1f' % row.vs_avg }}</strong>
+                        <span class="delta {{ 'delta-up' if row.diff > 0 else ('delta-down' if row.diff < 0 else '') }}">
+                            ({{ '+%.1f' % row.diff if row.diff >= 0 else '%.1f' % row.diff }} vs {{ '%.1f' % row.season_avg }} season)
+                        </span>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <figure class="chart chart-wide">
+            <img src="data:image/png;base64,{{ matchup_result.chart }}" alt="Averages vs {{ opponent_team }} compared to season">
+            <figcaption>Per-game averages against {{ opponent_team }} vs. season-long averages.</figcaption>
+        </figure>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

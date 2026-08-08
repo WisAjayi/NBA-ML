@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Teams &middot; NBA Stat Explorer{% endblock %}
+
+{% block content %}
+<section class="panel hero">
+    <h1>Team dashboard</h1>
+    <p>Pick a team and a stat to see the whole roster ranked by season average.</p>
+
+    <form method="POST" class="stat-form">
+        <div class="form-grid">
+            <div class="nice-form-group">
+                <label for="team">Team</label>
+                <select name="team" id="team" required>
+                    <option value="" disabled {{ 'selected' if not selected_team else '' }}>Select a team</option>
+                    {% for t in teams %}
+                    <option value="{{ t }}" {{ 'selected' if t == selected_team else '' }}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="nice-form-group">
+                <label for="stat">Stat</label>
+                <select name="stat" id="stat" required>
+                    {% for abbrev, label in stats %}
+                    <option value="{{ abbrev }}" {{ 'selected' if abbrev == dashboard_stat else '' }}>{{ label }} ({{ abbrev }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn-primary">Show leaders</button>
+    </form>
+
+    {% if error %}
+    <p class="alert">{{ error }}</p>
+    {% endif %}
+</section>
+
+{% if dashboard %}
+<section class="panel">
+    <h2 class="player-name">
+        {% if team_logos.get(selected_team) %}
+        <img src="{{ url_for('static', filename='img/' + team_logos[selected_team]) }}" alt="" width="28" height="28">
+        {% endif %}
+        {{ selected_team }} &mdash; {{ dict(stats).get(dashboard_stat, dashboard_stat) }} leaders
+    </h2>
+
+    {% if dashboard.chart %}
+    <div class="chart-grid">
+        <figure class="chart chart-wide">
+            <img src="data:image/png;base64,{{ dashboard.chart }}" alt="{{ selected_team }} leaders chart">
+            <figcaption>Roster ranked by season average (players with fewer than 10 games omitted from the chart).</figcaption>
+        </figure>
+    </div>
+    {% endif %}
+
+    <div class="leaderboard-table">
+        <div class="leaderboard-row leaderboard-header">
+            <span>#</span>
+            <span>Player</span>
+            <span>{{ dict(stats).get(dashboard_stat, dashboard_stat) }}</span>
+            <span>Games</span>
+        </div>
+        {% for row in dashboard.rows %}
+        <div class="leaderboard-row {{ 'leaderboard-low-sample' if row.low_sample else '' }}">
+            <span>{{ loop.index }}</span>
+            <span>{{ row.name }}{% if row.low_sample %} <span class="tag tag-low">low sample</span>{% endif %}</span>
+            <span>{{ '%.1f' % row.avg }}</span>
+            <span>{{ row.games }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

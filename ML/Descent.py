@@ -14,8 +14,8 @@ DESCENT = None
 ### RUN Cost or Derivative function and then gradient descent function on Data ###
 
 
-TEAM_NAME = 'Atlanta Hawks'
-TEAM_ABBREV = 'ATL'
+TEAM_NAME = 'Washington Wizards'
+TEAM_ABBREV = 'WAS'
 
 PLAYER_FIRST_NAME = "Trae"
 PLAYER_LAST_NAME = "Young"

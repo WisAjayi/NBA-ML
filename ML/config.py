@@ -1,8 +1,8 @@
 METRICS = ["Correlation", "Regression", "P-Values & Coefficients", "Bayesian Information Criterion"]
 STATS = ["PTS = Points", "AST = Assist", "STL = Steal", "BLK = Block", "REB = Rebound","TOV = Turnover",] # Stats Can be used / Changed for Correlation #
 
-TEAM_NAME = 'Atlanta'
-TEAM_ABBREV = 'ATL'
+TEAM_NAME = 'Washington'
+TEAM_ABBREV = 'WAS'
 PLAYER = 'Trae_Young'
 
 Name = "Points"

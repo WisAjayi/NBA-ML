@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% from "_macros.html" import roster_picker %}
+
+{% block title %}Splits &middot; NBA Stat Explorer{% endblock %}
+
+{% block content %}
+<section class="panel hero">
+    <h1>Home/away and win/loss splits</h1>
+    <p>Pick a player to see how their per-game averages shift between home and away games, and between wins and losses.</p>
+
+    <form method="POST" class="stat-form">
+        <div class="form-grid">
+            {{ roster_picker('main', teams, selected_team, 'team', 'first_name', 'last_name') }}
+        </div>
+        <button type="submit" class="btn-primary">See splits</button>
+    </form>
+
+    {% if error %}
+    <p class="alert">{{ error }}</p>
+    {% endif %}
+</section>
+
+{% if splits_result %}
+<section class="panel">
+    <h2 class="player-name">{{ player_name }}</h2>
+    <p class="model-note">
+        {{ splits_result.home_games }} home &middot; {{ splits_result.away_games }} away &middot;
+        {{ splits_result.wins }} wins &middot; {{ splits_result.losses }} losses
+    </p>
+
+    <div class="splits-table">
+        <div class="splits-row splits-header">
+            <span>Stat</span>
+            <span>Home</span>
+            <span>Away</span>
+            <span>Wins</span>
+            <span>Losses</span>
+        </div>
+        {% for row in splits_result.rows %}
+        <div class="splits-row">
+            <span class="splits-label">{{ row.label }}</span>
+            <span>{{ '%.1f' % row.Home if row.Home is not none else '—' }}</span>
+            <span>{{ '%.1f' % row.Away if row.Away is not none else '—' }}</span>
+            <span>{{ '%.1f' % row.Wins if row.Wins is not none else '—' }}</span>
+            <span>{{ '%.1f' % row.Losses if row.Losses is not none else '—' }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="chart-grid">
+        <figure class="chart">
+            <img src="data:image/png;base64,{{ splits_result.home_away_chart }}" alt="Home vs away averages">
+            <figcaption>Home vs. away per-game averages.</figcaption>
+        </figure>
+        <figure class="chart">
+            <img src="data:image/png;base64,{{ splits_result.win_loss_chart }}" alt="Win vs loss averages">
+            <figcaption>Win vs. loss per-game averages.</figcaption>
+        </figure>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
